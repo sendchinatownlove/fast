@@ -1,59 +1,27 @@
-var Airtable = require('airtable');
-const { mainModule } = require('process');
+import Airtable from "airtable";
 
-const apiKey = process.env['API_KEY']
-var base = new Airtable({ apiKey: apiKey }).base('appr3WjXIpUbPqFgm');
-
-// const AsyncAirtable = require('async-airtable');
-// const asyncAirtable = new AsyncAirtable(apiKey, BASE_ID)
-
-
-//// Works 
-// base('SCL Merchants').select({
-//     // Selecting the first 3 records in Active Merchants:
-//     view: "Active Merchants"
-// }).eachPage(function page(records, fetchNextPage) {
-//     // This function (`page`) will get called for each page of records.
-
-//     records.forEach(function(record) {
-//         console.log('Retrieved', record.get('SCL Merchant Name'));
-//     });
-
-//     // To fetch the next page of records, call `fetchNextPage`.
-//     // If there are more records, `page` will get called again.
-//     // If there are no more records, `done` will get called.
-//     fetchNextPage();
-
-// }, function done(err) {
-//     if (err) { console.error(err); return; }
-// });
+const apiKey = process.env["API_KEY"];
+Airtable.configure({ apiKey: apiKey });
+const base = Airtable.base("appr3WjXIpUbPqFgm");
 
 async function main() {
-    let list = []
-
-    list = await base('SCL Merchants').select({
-        // Selecting the first 3 records in Active Merchants:
-        view: "Active Merchants"
-    }).eachPage(function page(records, fetchNextPage) {
-        // This function (`page`) will get called for each page of records.
-
-        records.forEach(function (record) {
-            console.log('Retrieved', record.get('SCL Merchant Name'));
-            list.push(record.get('SCL Merchant Name'))
+    let list = [];
+    await base("SCL Merchants")
+        .select({
+            view: "Active Merchants",
+        })
+        .eachPage((records, fetchNextPage) => {
+            records.forEach((record) => {
+                const merchantName = record.get('SCL Merchant Name');
+                console.log('Retrieved', merchantName);
+                list.push(merchantName);
+            });
+            fetchNextPage();
         });
 
-        // To fetch the next page of records, call `fetchNextPage`.
-        // If there are more records, `page` will get called again.
-        // If there are no more records, `done` will get called.
-        fetchNextPage();
-
-
-    }, function done(err) {
-        if (err) { console.error(err); return; }
-        resolve(list)
-    });
-
-
+    return list;
 }
 
-console.log(main())
+(async () => {
+    console.log(await main());
+})();
