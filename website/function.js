@@ -8,7 +8,7 @@ const AsyncAirtable = require('async-airtable');
 const asyncAirtable = new AsyncAirtable(apiKey, BASE_ID)
 
 
-## Works 
+//// Works 
 // base('SCL Merchants').select({
 //     // Selecting the first 3 records in Active Merchants:
 //     view: "Active Merchants"
