@@ -1,0 +1,25 @@
+{
+    "dependencies": {
+        "airtable": "^0.11.1",
+        "dotenv": "^10.0.0"
+    },
+    "name": "fast",
+    "description": "",
+    "version": "1.0.0",
+    "main": "app.js",
+    "devDependencies": {},
+    "scripts": {
+        "start": "node --require dotenv/config ./website/function-async.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sendchinatownlove/fast.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/sendchinatownlove/fast/issues"
+    },
+    "homepage": "https://github.com/sendchinatownlove/fast#readme",
+    "type": "module"
+}
