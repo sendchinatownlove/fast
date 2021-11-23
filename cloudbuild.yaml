@@ -10,3 +10,4 @@ steps:
   - --trigger-http
   - --runtime=nodejs14
   - --no-allow-unauthenticated 
+  - --entry-point app
