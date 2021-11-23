@@ -13,8 +13,14 @@ export async function main(req, res) {
         .eachPage((records, fetchNextPage) => {
             records.forEach((record) => {
                 const merchantName = record.get('SCL Merchant Name');
+                const merchant = {
+                    "name": record.get('SCL Merchant Name'),
+                    "address":  record.get('Description'),
+                    "type_business": record.get('Type of Business'),
+                    "phone_number": record.get('Merchant Phone Number')
+                }
                 // console.log('Retrieved', merchantName);
-                list.push(merchantName);
+                list.push(merchant);
             });
             fetchNextPage();
         });
