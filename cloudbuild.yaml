@@ -8,5 +8,5 @@ steps:
   - --region=us-central1
   - --source=website
   - --trigger-http
-  - --runtime=nodejs10
+  - --runtime=nodejs14
   - --no-allow-unauthenticated 
