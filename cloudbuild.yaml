@@ -1,0 +1,12 @@
+steps:
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  args:
+  - gcloud
+  - functions
+  - deploy
+  - merchantmap
+  - --region=us-central1
+  - --source=website
+  - --trigger-http
+  - --runtime=nodejs10
+  - --no-allow-unauthenticated 
