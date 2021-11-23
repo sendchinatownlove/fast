@@ -11,7 +11,7 @@ steps:
   - --runtime=nodejs14
   - --no-allow-unauthenticated 
   - --entry-point=app
-  --set-env-vars API_KEY=$$API_KEY
+  - --set-env-vars API_KEY=$$API_KEY
   secretEnv: ['API_KEY']
 availableSecrets:
   secretManager:
