@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-
+  entrypoint: 'bash'
   args: ['-c', 'gcloud functions deploy merchantmap --set-env-vars=API_KEY=$$API_KEY  --entry-point=app --region=us-central1 --source=website.--trigger-http --allow-unauthenticated  --runtime=nodejs14']
   secretEnv: ['API_KEY']
 availableSecrets:
