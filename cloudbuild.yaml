@@ -11,3 +11,8 @@ steps:
   - --runtime=nodejs14
   - --no-allow-unauthenticated 
   - --entry-point=app
+  secretEnv: ['API_KEY']
+availableSecrets:
+  secretManager:
+  - versionName: projects/918652732143/secrets/AIRTABLE_API/versions/latest
+    env: 'API_KEY'
