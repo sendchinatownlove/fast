@@ -1,5 +1,8 @@
 import Airtable from "airtable";
-import { getLatLongFromGeocache } from "./utility/getLatLongFromGeocache.js";
+import {
+  getLatLongFromGeocache,
+  getAddressFromGeocache,
+} from "./utility/geocache.js";
 
 const apiKey = process.env["API_KEY"];
 Airtable.configure({ apiKey: apiKey });
@@ -15,7 +18,7 @@ export async function main(req, res) {
       records.forEach((record) => {
         const merchant = {
           name: record.get("Name"),
-          address: record.get("Address"),
+          address: getAddressFromGeocache(record.get("RoboGeocache")),
           typeBusiness: record.get("TYPE"),
           phoneNumber: record.get("Phone"),
           websiteUrl: record.get("Website"),
@@ -35,7 +38,6 @@ export async function main(req, res) {
           list.push(merchant);
         }
       });
-
       fetchNextPage();
     });
 

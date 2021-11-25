@@ -1,3 +1,5 @@
+// Utility functions to parse data from geocache
+
 function removeCharFromString(stringInput, charToRemove) {
   if (stringInput === null || stringInput === undefined) {
     return null;
@@ -18,6 +20,16 @@ function decodeGeocache(base64Geocache) {
   } catch (error) {
     return {};
   }
+}
+export function getAddressFromGeocache(base64Geocache) {
+  const base64GeocacheJSON = decodeGeocache(base64Geocache);
+
+  if (base64GeocacheJSON && base64GeocacheJSON.o) {
+    // formattedAddress from the Geocache ends with ", USA" so we want to remove that.
+    const formattedAddress = base64GeocacheJSON.o.formattedAddress;
+    return removeCharFromString(formattedAddress, ", USA");
+  }
+  return undefined;
 }
 
 export function getLatLongFromGeocache(base64Geocache) {
