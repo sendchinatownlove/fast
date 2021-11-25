@@ -6,6 +6,7 @@ import {
 
 const apiKey = process.env["API_KEY"];
 Airtable.configure({ apiKey: apiKey });
+const base = Airtable.base("appr3WjXIpUbPqFgm");
 
 export async function main(req, res) {
   let list = [];
