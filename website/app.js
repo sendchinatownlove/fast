@@ -22,10 +22,9 @@ export async function main(req, res) {
           typeBusiness: record.get("TYPE"),
           phoneNumber: record.get("Phone"),
           websiteUrl: record.get("Website"),
-          // update column name of "Short Description" when it's in the airtable
           shortDescription: record.get("Short Description"),
-          // update column name of "Image URLs" when it's in the airtable
           imageUrls: record.get("Image URLs"),
+          heroURL: record.get("Hero Image URL"),
           position: getLatLongFromGeocache(record.get("RoboGeocache")),
         };
 
