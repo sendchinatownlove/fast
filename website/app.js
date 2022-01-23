@@ -25,6 +25,7 @@ export async function main(req, res) {
           shortDescription: record.get("Short Description"),
           imageUrls: record.get("Image URLs"),
           heroURL: record.get("Hero Image URL"),
+          story: record.get("Story"),
           position: getLatLongFromGeocache(record.get("RoboGeocache")),
         };
 
