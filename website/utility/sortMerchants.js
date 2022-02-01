@@ -1,8 +1,8 @@
 /**
  * Sorts a list of merchants by using the zip codes as natural clusters. Algorithm is as follows:
  * Input is an array of merchants
- * 1. Group merchants by zip codes
- * 2. Randomly sort the zip codes (can generate array of random numbers from 1 to number of zip codes)
+ * 1. Group merchants by zip codes.
+ * 2. Randomly sort the zip codes.
  * 3. For each zip code, randomly sort the merchants
  * 4. Add the merchant.
  *
@@ -10,33 +10,46 @@
  * @returns array of merchants
  */
 export default function sortMerchants(merchantsArray) {
-  // get zip codes
-  const zipCodes = {};
+  const zipcodesToMerchants = {};
 
   for (let merchant of merchantsArray) {
     const address = merchant["address"];
-    const zipCode = address.split(" ").at(-1);
+    const zipcode = address.split(" ").at(-1);
 
-    if (Object.keys(zipCodes).includes(zipCode)) {
-      zipCodes[zipCode].push(merchant);
+    if (Object.keys(zipcodesToMerchants).includes(zipcode)) {
+      zipcodesToMerchants[zipcode].push(merchant);
     } else {
-      zipCodes[zipCode] = [merchant];
+      zipcodesToMerchants[zipcode] = [merchant];
     }
   }
 
-  // TODO: Randomly sort zip codes + merchants. Make 2 arrays of random integers
-  // One will be for the indexes of zip codes. The other will be for merchants.
-
-  // for each zip code, randomly sort restaurants and append to result
   const result = [];
+  const shuffledZipcodes = shuffle(Object.keys(zipcodesToMerchants));
 
-  for (let zipCode of Object.keys(zipCodes)) {
-    const merchants = zipCodes[zipCode];
+  for (let zipcode of shuffledZipcodes) {
+    const shuffledMerchants = shuffle(zipcodesToMerchants[zipcode]);
 
-    for (let merchant of merchants) {
+    for (let merchant of shuffledMerchants) {
       result.push(merchant);
     }
   }
 
   return result;
+}
+
+// https://stackoverflow.com/questions/962802
+function shuffle(array) {
+  var tmp,
+    current,
+    top = array.length;
+
+  if (top)
+    while (--top) {
+      current = Math.floor(Math.random() * (top + 1));
+      tmp = array[current];
+      array[current] = array[top];
+      array[top] = tmp;
+    }
+
+  return array;
 }
