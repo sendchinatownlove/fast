@@ -1,3 +1,14 @@
+/**
+ * Sorts a list of merchants by using the zip codes as natural clusters. Algorithm is as follows:
+ * Input is an array of merchants
+ * 1. Group merchants by zip codes
+ * 2. Randomly sort the zip codes (can generate array of random numbers from 1 to number of zip codes)
+ * 3. For each zip code, randomly sort the merchants
+ * 4. Add the merchant.
+ *
+ * @param {*} merchantsArray
+ * @returns array of merchants
+ */
 export default function sortMerchants(merchantsArray) {
   // get zip codes
   const zipCodes = {};
