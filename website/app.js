@@ -27,6 +27,7 @@ export async function main(req, res) {
           heroURL: record.get("Hero Image URL"),
           story: record.get("Story"),
           position: getLatLongFromGeocache(record.get("RoboGeocache")),
+          hide_on_map: record.get("Hide on Map")
         };
 
         if (
