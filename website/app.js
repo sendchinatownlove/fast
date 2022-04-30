@@ -35,7 +35,7 @@ export async function main(req, res) {
           merchant.address &&
           merchant.position.lat &&
           merchant.position.lng
-        ) {
+        ) && (merchant.hide_on_map != true) {
           list.push(merchant);
         }
       });
