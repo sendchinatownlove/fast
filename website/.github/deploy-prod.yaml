@@ -1,0 +1,63 @@
+name: Build and Deploy Prod
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - website/*
+env:
+  - GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  - VITE_REACT_APP_FIREBASE_API_KEY: ${{ secrets.VITE_REACT_APP_FIREBASE_API_KEY }}
+  - VITE_REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.VITE_REACT_APP_FIREBASE_PROJECT_ID }}
+  - VITE_REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_REACT_APP_FIREBASE_AUTH_DOMAIN }}
+  - VITE_REACT_APP_FIREBASE_APP_ID: ${{ secrets.VITE_REACT_APP_FIREBASE_APP_ID }}
+  - VITE_REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+  - VITE_REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_REACT_APP_FIREBASE_STORAGE_BUCKET }}
+jobs:
+  deploy:
+    name: Deploy Prod
+    needs: build
+    runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: app
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@master
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: dist
+          path: app/dist
+      # - name: Deploy to Firebase
+      #   uses: w9jds/firebase-action@master
+      #   with:
+      #     args: deploy --only hosting -p dev
+      #   env:
+      #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools vite
+      - name: Install Dependencies
+        run: npm install
+      - name: Enable Firebase Experiment
+        run: firebase --project ${{ secrets.FIREBASE_PROJECT_ID }} deploy --target=main
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Deploy to Firebase
+        run: firebase --project ${{ secrets.FIREBASE_PROJECT_ID }} > firebase_output.txt
+        env:
+                FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Post Deployment Output as Comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const fs = require('fs');
+            const output = fs.readFileSync('firebase_output.txt', 'utf8');
+            const comment = `Deployment output:\n\`\`\`\n${output}\n\`\`\``;
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment,
+            });
