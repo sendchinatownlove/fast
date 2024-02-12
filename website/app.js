@@ -3,6 +3,7 @@ import {
   getLatLongFromGeocache,
   getAddressFromGeocache,
 } from "./utility/geocache.js";
+import sortMerchants from "./utility/sortMerchants.js";
 
 const apiKey = process.env["API_KEY"];
 Airtable.configure({ apiKey: apiKey });
@@ -42,5 +43,7 @@ export async function main(req, res) {
       fetchNextPage();
     });
 
-  res.set("Access-Control-Allow-Origin", "*").send(list);
+  const sortedResults = sortMerchants(list);
+
+  res.set("Access-Control-Allow-Origin", "*").send(sortedResults);
 }
