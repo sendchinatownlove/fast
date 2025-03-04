@@ -12,7 +12,7 @@ export async function main(req, res) {
   let list = [];
   await base("All Chinatown Merchants")
     .select({
-      view: "SCL Merchants",
+      view: "Grid view",
     })
     .eachPage((records, fetchNextPage) => {
       records.forEach((record) => {
